@@ -8,12 +8,14 @@ document.querySelector("form").addEventListener("submit", async (e) => {
 
   button.setAttribute("disabled", true);
 
-  // Interact with foo actor, calling the greet method
-  const greeting = await fundraisa_backend.greet(name);
+  // Call the createCampaign function in the backend canister
+  await fundraisa_backend.createCampaign(name, /* add other required parameters */);
+
+  // Optionally, you can retrieve campaign details or perform other actions here
 
   button.removeAttribute("disabled");
 
-  document.getElementById("greeting").innerText = greeting;
+  // Update the UI or perform other actions as needed
 
   return false;
 });
