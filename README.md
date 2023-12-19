@@ -1,6 +1,8 @@
 # fundraisa
 
-Welcome to your new fundraisa project and to the internet computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
+Welcome to Fundraisa, your decentralized fundraising application on the Internet Computer (ICP). Fundraisa empowers users to create and contribute to fundraising campaigns in a decentralized and transparent environment.
+
+To get started with Fundraisa, explore the project directory structure and the default configuration files. This README provides essential information on setting up your development environment and running the application locally.
 
 To get started, you might want to explore the project directory structure and the default configuration file. Working with this project in your development environment will not affect any production deployment or identity tokens.
 
