@@ -1,0 +1,29 @@
+{
+  "canisters": {
+    "fundraisa_backend": {
+      "main": "src/fundraisa_backend/main.mo",
+      "type": "motoko"
+    },
+    "fundraisa_frontend": {
+      "dependencies": [
+        "fundraisa_backend"
+      ],
+      "frontend": {
+        "entrypoint": "src/fundraisa_frontend/src/index.html"
+      },
+      "source": [
+        "src/fundraisa_frontend/assets",
+        "dist/fundraisa_frontend/"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
