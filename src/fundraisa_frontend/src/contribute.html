@@ -3,68 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Campaign</title>
+    <title>Contribute to Campaign</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
         }
         .container {
             max-width: 800px;
-            margin: 50px auto;
+            margin: 0 auto;
             padding: 20px;
             text-align: center;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         h1 {
             font-size: 36px;
             margin-bottom: 20px;
-            color: #333;
         }
         form {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-        input, textarea {
+        input {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
         }
         button {
-            padding: 12px 24px;
+            padding: 10px 20px;
             margin: 10px 0;
             background-color: #007bff;
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        button:hover {
-            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Create a New Campaign</h1>
-        <form id="createCampaignForm">
-            <input type="text" id="description" name="description" placeholder="Campaign Description" required>
-            <input type="number" id="goal" name="goal" placeholder="Campaign Goal (in USD)" required>
-            <input type="text" id="owner" name="owner" placeholder="Campaign Owner" required>
-            <button type="submit">Create Campaign</button>
+        <h1>Contribute to Campaign</h1>
+        <form>
+            <input type="number" id="contributionAmount" name="contributionAmount" placeholder="Contribution Amount (in USD)" required>
+            <button type="submit">Contribute</button>
         </form>
     </div>
-
-    <!-- Include your JavaScript file -->
-    <script src="index.js"></script>
 </body>
 </html>
