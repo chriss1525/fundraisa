@@ -1,24 +1,25 @@
 import { fundraisa_backend } from "../../declarations/fundraisa_backend";
 
-document.querySelector("form").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const button = e.target.querySelector("button");
+// Function to create a campaign
+export const createCampaign = async (name, goal, destination) => {
+  const result = await fundraisa_backend.createCampaign(name, goal, destination);
+  return result;
+}
 
-  const name = document.getElementById("name").value.toString();
-  const goal = BigInt(document.getElementById("goal").value);
-  const owner = document.getElementById("owner").value.toString();
-  const destination = document.getElementById("destination").value.toString();
+// function to get campaign by id
+export const getCampaignDetails = async (id) => {
+  const result = await fundraisa_backend.getCampaignDetails(id);
+  return result;
+}
 
-  button.setAttribute("disabled", true);
+// contribute to a campaign
+export const contributeToCampaign = async (name, amount) => {
+  const result = await fundraisa_backend.contributeToCampaign(name, amount);
+  return result;
+}
 
-  // Call the createCampaign function in the backend canister
-  await fundraisa_backend.createCampaign(name, goal, owner, destination);
-
-  // Optionally, you can retrieve campaign details or perform other actions here
-
-  button.removeAttribute("disabled");
-
-  // Update the UI or perform other actions as needed
-
-  return false;
-});
+// end a campaign
+export const endCampaign = async (name) => {
+  const result = await fundraisa_backend.endCampaign(name);
+  return result;
+}

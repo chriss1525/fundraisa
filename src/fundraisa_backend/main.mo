@@ -5,6 +5,7 @@ import Text "mo:base/Text";
 import Hash "mo:base/Hash";
 import Trie "mo:base/Trie";
 import Error "mo:base/Error";
+import Iter "mo:base/Iter";
 
 actor {
   // define a record type for the campaign
@@ -25,11 +26,16 @@ actor {
   var campaigns : Trie.Trie<Text, Campaign> = Trie.empty();
 
 // define the public functions of the actor
-  public func createCampaign(name: Text, goal: Nat, owner: Principal, destination: Text) : async () {
+// create a campaign
+  public shared(msg) func createCampaign(name: Text, goal: Nat, destination: Text) : async () {
+    // get the principal of the caller
+    let owner = msg.caller;
+    // put the campaign in the trie
     let (newCampaigns, _) = Trie.put(campaigns, key(name), Text.equal, { goal = goal; owner = owner; contributionDestination = destination; ended = false; totalRaised = 0 });
     campaigns := newCampaigns;
-  };
+};
 
+// get the details of a campaign
   public query func getCampaignDetails(name: Text) : async Campaign {
     let maybeCampaign = Trie.get(campaigns, key(name), Text.equal);
     switch (maybeCampaign) {
@@ -38,7 +44,8 @@ actor {
     };
   };
 
-  public func contributeToCampaign(name: Text, amount: Nat) : async () {
+// contribute to a campaign
+  func contributeToCampaign(name: Text, amount: Nat) : async () {
   let maybeCampaign = Trie.get(campaigns, key(name), Text.equal);
   switch (maybeCampaign) {
     case (?campaign) {
@@ -52,5 +59,24 @@ actor {
     };
     case null { throw Error.reject("Campaign not found") };
   };
-}
+};
+
+// end a campaign
+public shared(msg) func endCampaign(name: Text) : async () {
+  let maybeCampaign = Trie.get(campaigns, key(name), Text.equal);
+  switch (maybeCampaign) {
+    case (?campaign) {
+      if (campaign.ended) {
+        throw Error.reject("Campaign has ended");
+      };
+      // make sure the caller is the owner of the campaign
+      if (campaign.owner != msg.caller) {
+        throw Error.reject("Only the campaign owner can end the campaign");
+      };
+      let (newCampaigns, _) = Trie.put(campaigns, key(name), Text.equal, { campaign with ended = true });
+      campaigns := newCampaigns;
+    };
+    case null { throw Error.reject("Campaign not found") };
+  };
+};
 };
