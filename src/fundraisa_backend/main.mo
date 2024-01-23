@@ -27,12 +27,22 @@ actor {
 
 // define the public functions of the actor
 // create a campaign
-  public shared(msg) func createCampaign(name: Text, goal: Nat, destination: Text) : async () {
-    // get the principal of the caller
-    let owner = msg.caller;
+  public shared(msg) func createCampaign(name: Text, goal: Nat, destination: Text) : async Campaign {
+  // get the principal of the caller
+  let owner = msg.caller;
+  
+  // check if the user is authenticated
+  if (isAuthenticated(owner)) {
+    // create the campaign
+    let campaign = { goal = goal; owner = owner; contributionDestination = destination; ended = false; totalRaised = 0 };
     // put the campaign in the trie
-    let (newCampaigns, _) = Trie.put(campaigns, key(name), Text.equal, { goal = goal; owner = owner; contributionDestination = destination; ended = false; totalRaised = 0 });
+    let (newCampaigns, _) = Trie.put(campaigns, key(name), Text.equal, campaign);
     campaigns := newCampaigns;
+    // return the campaign
+    return campaign;
+  } else {
+    throw Error.reject("User is not authenticated");
+  }
 };
 
 // get the details of a campaign
@@ -61,22 +71,30 @@ actor {
   };
 };
 
-// end a campaign
-public shared(msg) func endCampaign(name: Text) : async () {
+// end a campaign make sure only the owner can end the campaign
+  public shared(msg) func endCampaign(name: Text) : async () {
   let maybeCampaign = Trie.get(campaigns, key(name), Text.equal);
   switch (maybeCampaign) {
     case (?campaign) {
-      if (campaign.ended) {
-        throw Error.reject("Campaign has ended");
+      if (campaign.owner == msg.caller) {
+        let (newCampaigns, _) = Trie.put(campaigns, key(name), Text.equal, { campaign with ended = true });
+        campaigns := newCampaigns;
+      } else {
+        throw Error.reject("Only the owner can end the campaign");
       };
-      // make sure the caller is the owner of the campaign
-      if (campaign.owner != msg.caller) {
-        throw Error.reject("Only the campaign owner can end the campaign");
-      };
-      let (newCampaigns, _) = Trie.put(campaigns, key(name), Text.equal, { campaign with ended = true });
-      campaigns := newCampaigns;
     };
     case null { throw Error.reject("Campaign not found") };
   };
 };
+
+// define isAuthenicated function
+func isAuthenticated(principal: Principal) : Bool {
+  let iter = Iter.fromArray([1, 2, 3]);
+  let maybeNextValue = iter.next();
+  switch (maybeNextValue) {
+    case (?nextValue) true;
+    case null false;
+  };
+};
+
 };
