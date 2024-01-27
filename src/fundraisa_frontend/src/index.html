@@ -1,24 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>fundraisa</title>
-    <base href="/" />
-    <link rel="icon" href="favicon.ico" />
+    <title>Mobile & Online Fundraising Platform </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Fundraisa is an Online Fundraising Platform that provides a transparent and convenient way to raise funds.">
     <link type="text/css" rel="stylesheet" href="main.css" />
   </head>
   <body>
-    <main>
-      <img src="logo2.svg" alt="DFINITY logo" />
-      <br />
-      <br />
-      <form action="#">
-        <label for="name">Enter your name: &nbsp;</label>
-        <input id="name" alt="Name" type="text" />
-        <button type="submit">Click Me!</button>
-      </form>
-      <section id="greeting"></section>
-    </main>
+    <div class="container">
+      <img src="fundraisa_logo.png" alt="fundraisa logo" width="100"/>
+      <h1>Welcome to fundraising platform</h1>
+      <a href="registration_form_1.html">Start a fundraising </a>
+      <div class="divider"></div>
+      <h2><span id="title">Campaign Title</span></h2>
+      <h2><span id="target">Campaign Goal 200,000/=</span></h2>
+      <h3>Raised :<span id="raised">234</span>Balance :<span id="balance">550</span>Remaining Time :<span id="time">30 Days</span></h3>
+      <h3>Description</h3><p><span id="description">The campaign is about raising medical bill for ...</span></p>
+      <button id="donate-btn" type="button" onclick="openWindow()">Donate</button>
+      <p>By clicking "Donate", you agree to Fundraisa's <br>Terms & Conditions</p>
+    </div>
+
+<script>
+function openWindow() {
+  window.open("donate.html", "_blank", "location=no,scrollbars=no,titlebar=no,top=300,menubar=no,status=no,resizable=no,toolbar=no,width=400,height=450,left=500,");
+}
+</script>
+
   </body>
 </html>
