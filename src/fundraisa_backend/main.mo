@@ -6,125 +6,117 @@ import Hash "mo:base/Hash";
 import Trie "mo:base/Trie";
 import Error "mo:base/Error";
 import Iter "mo:base/Iter";
+import Debug "mo:base/Debug";
+import Result "mo:base/Result";
+import TrieMap "mo:base/TrieMap";
 
-actor {
-  // define a record type for the campaign
+actor Dfundraisa{
+  // Define a record types for fundraisa platform
   type Campaign = {
-    goal: Nat;
-    owner: Principal;
-    contributionDestination: Text;
+    cTitle: Text;
+    cType: Text;
+    cDescription: Text;
+    cGoal: Nat;
+    cEndDateTime: Text;
     ended: Bool;
-    totalRaised: Nat;
   };
 
   type User = {
-    name: Text;
-    principal: Principal;
+    userName: Text;
+    userId: Text;
+    userTelNo: Text;
     yearOfBirth: Nat;
+    contributionDestination: Text;
   };
 
-// define a key type for the trie
-// a trie is a map from keys to values
-// the key type is a type that can be hashed and compared for equality
-  func key(t: Text) : Trie.Key<Text> { { hash = Text.hash t; key = t } };
+  type Donner = {
+    donnerName: Text;
+    donnerAmount: Nat;
+  };
 
-// define a trie to store the campaigns
-  var campaigns : Trie.Trie<Text, Campaign> = Trie.empty();
-  var users : Trie.Trie<Text, User> = Trie.empty();
+  // Define TrieMaps to store campaigns, users and donnors
+  let campaigns : TrieMap.TrieMap<Principal, Campaign> = TrieMap.TrieMap(Principal.equal, Principal.hash);
+  let users : TrieMap.TrieMap<Principal, User> = TrieMap.TrieMap(Principal.equal, Principal.hash);
+  let donners : TrieMap.TrieMap<Principal, Donner> = TrieMap.TrieMap(Principal.equal, Principal.hash);
 
-// define the public functions of the actor
-// Create a user
-public shared(msg) func createUser(name: Text, yearOfBirth: Nat) : async User {
-  // Get the principal of the caller
-  let principal = msg.caller;
+  //USER
+
+  // Add a user - ({caller}) is a verified/certified principal behind the internet identity and the person calling the function
+  // shared because the caller's identity is public information
+  public shared({ caller } ) func addUser(userName: Text, userId: Text, userTelNo: Text, yearOfBirth: Nat, 
+    contributionDestination: Text) : async Result.Result<(), Text> {
+    // Add if a user does not exist else thrrow an error
+    switch(users.get(caller)) {
+      case(null) {
+        let user : User = {
+          userName;
+          userId;
+          userTelNo;
+          yearOfBirth;
+          contributionDestination;
+        };
+        users.put(caller, user);
+        return #ok();
+      };
+      case(? user) { 
+        return #err("The user exists for the caller");
+      };
+    };
+  };
+
+
+  // Querry a user ({?User} is optional data type)
+  public query func getUser(p: Principal) : async ?User {
+    return users.get(p);
+  };
+
+
+  // Delete a user (only identified callers can delete a user)
+  public shared ({ caller }) func deleteUser() : async () {
+    users.delete(caller);
+  };
+
   
-  // Check if the user is old enough and does not already exist
-  if (isOldEnough(yearOfBirth) and not doesUserExist(principal)) {
-    // Create the user
-    let user = { name = name; principal = principal; yearOfBirth = yearOfBirth };
-    // Put the user in the trie
-    let (newUsers, _) = Trie.put(users, key(Principal.toText(principal)), Text.equal, user);
-    users := newUsers;
-    // Return the user
-    return user;
-  } else {
-    throw Error.reject("User is not old enough or already exists");
-  }
-};
+  // FUNDRAISING CAMPAIGN
 
-// create a campaign
-  public shared(msg) func createCampaign(name: Text, goal: Nat, contributionDestination: Text) : async Campaign {
-    // Get the principal of the caller
-    let principal = msg.caller;
-    // Check if the user exists
-    if (doesUserExist(principal)) {
-      // Create the campaign
-      let campaign = { goal = goal; owner = principal; contributionDestination = contributionDestination; ended = false; totalRaised = 0 };
-      // Put the campaign in the trie
-      let (newCampaigns, _) = Trie.put(campaigns, key(name), Text.equal, campaign);
-      campaigns := newCampaigns;
-      // Return the campaign
-      return campaign;
-    } else {
-      throw Error.reject("User does not exist");
-    };
-  };
-
-// get the details of a campaign
-  public query func getCampaignDetails(name: Text) : async Campaign {
-    let maybeCampaign = Trie.get(campaigns, key(name), Text.equal);
-    switch (maybeCampaign) {
-      case (?campaign) campaign;
-      case null { throw Error.reject("Campaign not found") };
-    };
-  };
-
-// contribute to a campaign
-  public shared func contributeToCampaign(name: Text, amount: Nat) : async () {
-  let maybeCampaign = Trie.get(campaigns, key(name), Text.equal);
-  switch (maybeCampaign) {
-    case (?campaign) {
-      if (campaign.ended) {
-        throw Error.reject("Campaign has ended");
+  public shared ({ caller }) func addCampaign(cTitle: Text, cType: Text, cDescription: Text, cGoal: Nat, cEndDateTime: Text, 
+    ended: Bool) : async Result.Result<(), Text> {
+    // Add if a campaing does not exist else throw an error
+    switch(campaigns.get(caller)) {
+      case(null) {
+        let campaign : Campaign = {
+          cTitle;
+          cType;
+          cDescription;
+          cGoal;
+          cEndDateTime;
+          ended;
+        };
+        campaigns.put(caller, campaign);
+        return #ok();
       };
-      let totalRaised = campaign.totalRaised + amount;
-      let ended = totalRaised >= campaign.goal;
-      let (newCampaigns, _) = Trie.put(campaigns, key(name), Text.equal, { campaign with totalRaised = totalRaised; ended = ended });
-      campaigns := newCampaigns;
-    };
-    case null { throw Error.reject("Campaign not found") };
-  };
-};
-
-// end a campaign make sure only the owner can end the campaign
-  public shared(msg) func endCampaign(name: Text) : async () {
-  let maybeCampaign = Trie.get(campaigns, key(name), Text.equal);
-  switch (maybeCampaign) {
-    case (?campaign) {
-      if (campaign.owner == msg.caller) {
-        let (newCampaigns, _) = Trie.put(campaigns, key(name), Text.equal, { campaign with ended = true });
-        campaigns := newCampaigns;
-      } else {
-        throw Error.reject("Only the owner can end the campaign");
+      case(? campaign) { 
+        return #err("There is already a campaign for that caller")
       };
     };
-    case null { throw Error.reject("Campaign not found") };
   };
-};
 
-// Check if the user is older than 18
-func isOldEnough(yearOfBirth: Nat) : Bool {
-  return yearOfBirth <= 2000;
-};
-
-// Check if the user already exists
-func doesUserExist(principal: Principal) : Bool {
-  let principalText = Principal.toText(principal);
-  let maybeUser = Trie.get(users, key(principalText), Text.equal);
-  switch (maybeUser) {
-    case (?user) true;
-    case null false;
+  //delete a campaign
+  public shared ({ caller }) func removeCampaign() : async () {
+    campaigns.delete(caller);
   };
-};
 
+  // access the principal of the caller
+  public shared ({ caller }) func returnPrincipalOfTheCaller() : async Text {
+    return Principal.toText(caller);
+    };
+  //public query func getGampaign(p: Prinipal) : async ?Campaign{
+  //  return campaigns.get(p);
+  //};
+
+  public func concat(a: Text): async Text{
+    var b: Text = "hallo + a";
+    Debug.print(b);
+    return b;
+  };
 };
