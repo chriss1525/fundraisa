@@ -6,6 +6,27 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link type="text/css" rel="stylesheet" href="main.css" />
+
+    <script type="text/javascript">
+      function passValues() {
+        // save a string object of values to local host
+        let campaignTitle = document.getElementById("fundraiser").value;
+        let campaignType = document.querySelector("#fundraiser-type").value;
+        let campaignDescription = document.querySelector("#description").value;
+        let campaignGoal = document.querySelector("#target-amount").value;
+        let campaignEndTime = document.querySelector("#end-time").value;
+
+        localStorage.setItem("campaignObject", JSON.stringify({
+          cTitle : campaignTitle,
+          cType : campaignType,
+          cDescription : campaignDescription,
+          cGoal : campaignGoal,
+          cEndDateTime : campaignEndTime
+        }));
+        return false;
+      }
+    </script>
+    
   </head>
 
   <body>
@@ -14,25 +35,24 @@
       <h1>Register</h1>
       <h2>Enter fundraising details below:</h2>
       <div class="divider"></div>
-        <form action="#">
-          <input type="text" id="fundraiser" name="fundraiser" value="" placeholder="Fundraiser Title / Cause Name"/>
-          <input list="fundraiser-type" placeholder="Select Type [Political Fundraising is NOT allowed]">
-          <datalist id="fundraiser-type">
-	    <option value="Education">
-	    <option value="Health">
-	    <option value="Funeral">
-	    <option value="Wedding">
-	    <option value="Business">
-	    <option value="Other ( Non-Political )">
-          </datalist>
-        <textarea name="describtion" rows="3" cols="30" placeholder="Describe details of your fundraising"></textarea>
+      <form action="registration_form_2.html" id="form1" name="form1" autocomplete="off">
+        <input type="text" id="fundraiser" name="fundraiser" value="" placeholder="Fundraiser Title / Cause Name"/>
+        <select id="fundraiser-type" name="fundraiser-type">
+          <option value="" disabled selected>Select Type [Political Fundraising is NOT allowed]</option>
+          <option value="Education">Education</option>
+          <option value="Health">Health</option>
+          <option value="Funeral">Funeral</option>
+          <option value="Wedding">Wedding</option>
+          <option value="Business">Business</option>
+          <option value="Other">Other ( Non-Political )</option>
+        </select>
+        <textarea id="description" rows="3" cols="30" value="" placeholder="Describe details of your fundraising"></textarea>
         <input id="target-amount" type="number" name="target-amount" step="0.01" min=0 value="" placeholder="Target amount to raise"/>
         <h3><label for="end-time">Select Date & Time your fundraising ends</label></h3>
         <input type="datetime-local" id="end-time" name="end-time" value=""/>
-        <input id="next-btn" type="button" value="Next &raquo;" onclick="location.href='registration_form_2.html';" />
+        <input id="next-btn" type="submit" name="button" value="Next &raquo;" onclick="passValues();"/> 
       </form>
-      <p>By clicking "Next", you agree to Fundraisa's <br>Terms & Conditions</p>
+      <p id="page2">By clicking "Next", you agree to Fundraisa's <br>Terms & Conditions</p>
     </div>
   </body>
-
 </html>

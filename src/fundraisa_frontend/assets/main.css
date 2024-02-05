@@ -47,7 +47,15 @@ form {
   background-color: #617BFF;
 }
 
+.divider-a {
+  width: 500px;
+  height: 3px;
+  margin: 12px auto;
+  background-color: #617BFF;
+}
+
 input,
+select,
 textarea,
 button {
   position: relative;
@@ -71,13 +79,18 @@ textarea:focus {
   border: 2px #617BFF solid;
 }
 
+.container-a {
+  margin: auto;
+  margin-top: 3px;
+}
+
 .container {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.2);
   width: 300px;
   margin: 0 auto;
   border-radius: 14px;
   padding: 30px 30px 20px 30px;
-  margin-top: 50px;
+  margin-top: 10px;
 }
 
 input[name="amount"] {
