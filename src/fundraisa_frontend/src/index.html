@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="">
+
   <head>
     <title>Mobile & Online Fundraising Platform </title>
     <meta charset="utf-8">
@@ -7,17 +8,30 @@
     <meta name="description" content="Fundraisa is an Online Fundraising Platform that provides a transparent and convenient way to raise funds.">
     <link type="text/css" rel="stylesheet" href="main.css" />
   </head>
+
   <body>
-    <div class="container">
+    <div class="container-a">
       <img src="fundraisa_logo.png" alt="fundraisa logo" width="100"/>
-      <h1>Welcome to fundraising platform</h1>
+      <h1>Welcome to our fundraising platform</h1>
       <a href="registration_form_1.html">Start a fundraising </a>
-      <div class="divider"></div>
+      </div>
+      <div class="divider-a"></div>
+      <div class="container">
       <h2><span id="title">Campaign Title</span></h2>
       <h2><span id="target">Campaign Goal 200,000/=</span></h2>
-      <h3>Raised :<span id="raised">234</span>Balance :<span id="balance">550</span>Remaining Time :<span id="time">30 Days</span></h3>
-      <h3>Description</h3><p><span id="description">The campaign is about raising medical bill for ...</span></p>
+      <p><label for="raised">Raised: &nbsp<span id="span-raised">234</span>&nbspBalance: &nbsp<span id="balance">550</span></label>
+      <progress id="raised" value="32" max="100"></progress></P>
+      
+      <p><label for="time">Time left : <span id="span-time">30 Days</span></label>
+      <progress id="time" value="32" max="100"> 100% </progress></p>
+
+<h3>Description</h3><p><span id="description">The campaign is about raising medical bill for ...</span></p>
+      
+  
       <button id="donate-btn" type="button" onclick="openWindow()">Donate</button>
+
+    </div>
+    <div class="container-a">
       <p>By clicking "Donate", you agree to Fundraisa's <br>Terms & Conditions</p>
     </div>
 
