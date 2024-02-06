@@ -9,6 +9,7 @@ import Principal "mo:base/Principal";
 import Result "mo:base/Result";
 import Text "mo:base/Text";
 import TrieMap "mo:base/TrieMap";
+import Iter "mo:base/Iter";
 
 
 // CANISTER (SMART CONTRACT)
@@ -162,6 +163,10 @@ actor Dfundraisa{
     return #ok();
   };
 
+  // QUERRY ALL fundraising campaigns
+  public query func getCampaigns() : async [(Text, Campaign)] {
+    Iter.toArray(campaigns.entries());
+};
 
   // QUERRY  a SINGLE fundraising campaign
   public query func getCampaign(campaignId: Text): async ?Campaign {
