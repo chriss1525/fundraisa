@@ -10,6 +10,7 @@ import Principal "mo:base/Principal";
 import Result "mo:base/Result";
 import Text "mo:base/Text";
 import TrieMap "mo:base/TrieMap";
+import Iter "mo:base/Iter";
 
 
 // CANISTER (SMART CONTRACT)
@@ -108,10 +109,6 @@ actor Dfundraisa{
     return users.get(p);
   };
 
-  // QUERRY ALL users (code not ready)
-  //public shared query ({ caller }) func getUsers() : async Result.Result<(), Text> {
-    //return #ok(users.values()); //#values function to be verified later if it's code is correct)
-  //};
 
   // UPDATE a SINGLE user account by the user (i.e using user playload)
   public shared ({ caller }) func updateUser(userPayload: UserPayload) : async Result.Result<(), Text> {
@@ -144,7 +141,7 @@ actor Dfundraisa{
 
   // ADD a fundraising campaign
   public func addCampaign(campaignPayload: CampaignPayload) : async Result.Result<(), Text> {
-    //1. authendicate user
+    //1. authenticate user
     //2. Prepare the data
     let campaignId: Text = Nat.toText(campaignIdCount);  //set campaign ID
     campaignIdCount += 1;
@@ -174,17 +171,11 @@ actor Dfundraisa{
   };
 
 
-  // QUERRY ALL fundraising campaigns (code not ready)
-  //for values iter on campaigns.vals() or campaigns.entries() for entries
-  //public query func getCampaigns(): async ?Campaign {
-  // Use Iter to iterate over the elements of the TrieMap
-  //  let iter = campaigns.entries();
-  //  for (campaign in campaigns.vals()) {
-  //    let entry = campaign;
-  //    debug_show(entry);
-  //  };
-  //};
-
+  // QUERRY ALL fundraising campaigns
+  public query func getCampaigns() : async [(Text, Campaign)] {
+    Iter.toArray(campaigns.entries());
+};
+  
 
   // UPDATE a SINGLE fundraising campaign by a user (using campaign payload, and user's campaignId)
   public func updateCampaignPayload(campaignId: Text, campaignPayload: CampaignPayload): async Result.Result<(), Text> {
