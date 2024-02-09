@@ -24,7 +24,7 @@ import { Input } from "./components/ui/input";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "./components/ui/select";
 import Landing  from "./Landing";
 import CampaignList from "./campaigns";
-import profile from "./profile";
+import Profile from "./profile";
 import CreateCampaign from "./create_campaign";
 
 
@@ -84,7 +84,7 @@ const App = () => {
         <Route path="/createCampaign" element={<CreateCampaign />} />
         <Route path="/campaign/:campaignId" element={<Campaign />} />
         <Route path="/donate/:campaignId" element={<Donate />} />
-        <Route path="/profile" element={<profile />} />
+       <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
   );
