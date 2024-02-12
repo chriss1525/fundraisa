@@ -43,7 +43,7 @@ const CreateCampaign = () => {
               <Link to="/createCampaign" className="text-sm font-medium hover:underline underline-offset-4">
                 Create Campaign
               </Link>
-              <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
+              <Link to="/campaigns" className="text-sm font-medium hover:underline underline-offset-4" href="#">
                 Donate
               </Link>
             </nav>

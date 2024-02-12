@@ -24,8 +24,9 @@ import { Input } from "./components/ui/input";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "./components/ui/select";
 import Landing  from "./Landing";
 import CampaignList from "./campaigns";
-import profile from "./profile";
+import Profile from "./profile";
 import CreateCampaign from "./create_campaign";
+import Donate from "./donate";
 
 
 // Initialize the agent
@@ -44,10 +45,6 @@ const fundraisaBackend = Actor.createActor(fundraisa_backend_idl, {
   canisterId: fundraisa_backend_canister_id,
 });
 
-// Define components
-
-// sign up
-
 
 
 
@@ -62,18 +59,6 @@ const Campaign = () => {
   );
 };
 
-// donation page
-const Donate = () => {
-  return (
-    <div>
-      <h1>Donate</h1>
-      <p>Choose an amount to donate</p>
-      <input type="number" />
-      <button>Donate</button>
-    </div>
-  );
-};
-
 // App component
 const App = () => {
   return (
@@ -84,7 +69,7 @@ const App = () => {
         <Route path="/createCampaign" element={<CreateCampaign />} />
         <Route path="/campaign/:campaignId" element={<Campaign />} />
         <Route path="/donate/:campaignId" element={<Donate />} />
-        <Route path="/profile" element={<profile />} />
+       <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
   );

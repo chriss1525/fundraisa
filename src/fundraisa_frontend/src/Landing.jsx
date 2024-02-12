@@ -34,10 +34,10 @@ const Landing = () => {
             <span className="sr-only">Acme Inc</span>
           </Link>
           <nav className="ml-auto flex gap-4 sm:gap-6">
-            <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
+            <Link onClick={handleSignIn} className="text-sm font-medium hover:underline underline-offset-4" href="#">
               Create Campaign
             </Link>
-            <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
+            <Link onClick={handleSignIn} className="text-sm font-medium hover:underline underline-offset-4" href="#">
               Donate
             </Link>
           </nav>
@@ -71,7 +71,7 @@ const Landing = () => {
                 community that believes in the power of collective action to transform lives.
               </p>
               <form className="flex flex-col gap-2 min-[400px]:flex-row sm:gap-4">
-                <Button size="lg"><Link to="/campaigns">
+                <Button onClick={(event) => handleSignIn(event)} size="lg"><Link to="/campaigns">
                   Learn More
                   </Link></Button>
               </form>
