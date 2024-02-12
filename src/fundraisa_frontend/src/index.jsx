@@ -26,6 +26,7 @@ import Landing  from "./Landing";
 import CampaignList from "./campaigns";
 import Profile from "./profile";
 import CreateCampaign from "./create_campaign";
+import Donate from "./donate";
 
 
 // Initialize the agent
@@ -44,10 +45,6 @@ const fundraisaBackend = Actor.createActor(fundraisa_backend_idl, {
   canisterId: fundraisa_backend_canister_id,
 });
 
-// Define components
-
-// sign up
-
 
 
 
@@ -58,18 +55,6 @@ const Campaign = () => {
       <h1>Campaign Title</h1>
       <p>Campaign Description</p>
       <Button>Donate</Button>
-    </div>
-  );
-};
-
-// donation page
-const Donate = () => {
-  return (
-    <div>
-      <h1>Donate</h1>
-      <p>Choose an amount to donate</p>
-      <input type="number" />
-      <button>Donate</button>
     </div>
   );
 };

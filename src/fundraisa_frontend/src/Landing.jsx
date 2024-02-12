@@ -71,7 +71,7 @@ const Landing = () => {
                 community that believes in the power of collective action to transform lives.
               </p>
               <form className="flex flex-col gap-2 min-[400px]:flex-row sm:gap-4">
-                <Button size="lg"><Link to="/campaigns">
+                <Button onClick={(event) => handleSignIn(event)} size="lg"><Link to="/campaigns">
                   Learn More
                   </Link></Button>
               </form>
