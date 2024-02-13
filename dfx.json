@@ -4,6 +4,10 @@
       "main": "src/fundraisa_backend/main.mo",
       "type": "motoko"
     },
+    "donors": {
+      "main": "src/fundraisa_backend/donors.mo",
+      "type": "motoko"
+    },
     "internet_identity": {
       "type": "custom",
       "candid": "https://github.com/dfinity/internet-identity/releases/download/release-2024-02-02/internet_identity.did",
