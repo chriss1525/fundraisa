@@ -18,7 +18,8 @@ import {
   idlFactory as fundraisa_backend_idl,
   canisterId as fundraisa_backend_canister_id,
 } from "../../declarations/fundraisa_backend";
-import { fundraisa_backend } from "../../declarations/fundraisa_backend/index";
+import { fundraisa_backend } from "../../declarations/fundraisa_backend";
+import { donors } from "../../declarations/donors";
 import { Button } from "./components/ui/button";
 import { Input } from "./components/ui/input";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "./components/ui/select";
@@ -44,7 +45,6 @@ const fundraisaBackend = Actor.createActor(fundraisa_backend_idl, {
   agent,
   canisterId: fundraisa_backend_canister_id,
 });
-
 
 
 
