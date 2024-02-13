@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { fundraisa_backend } from '../../declarations/fundraisa_backend';
+import { donors } from '../../declarations/donors';
 import { useNavigate } from "react-router-dom";
 
 const DonatePage = () => {
@@ -30,8 +31,31 @@ const DonatePage = () => {
     event.preventDefault();
     setIsLoading(true);
     try {
-        const payload = {donorName: name, campaignId: campaignId, donatedAmount: parseFloat(amount) }
-        await fundraisa_backend.addCampaign(payload);
+        //1. capture donor details
+        const donor = {donorName: name, campaignId: campaignId, donatedAmount: parseFloat(amount) };
+
+        //3. Get campaignId's record from backend
+        const campaignData = await fundraisa_backend.getCampaign(campaignId);
+
+        //2. calculate campaign raised amount
+        const availableCampaignAmount = parseFloat(campaignData[0]["campaignRaisedAmount"]);
+        const currentDonationAmount = parseFloat(amount);
+        const campaignRaisedAmount = availableCampaignAmount + currentDonationAmount;
+
+        //3. Prepare updated campaignId's data to send to backend - here we are updating the campaign's raised amount
+        let updatedCampaignIdRecord = {
+          campaignId: campaignId,
+          campaignTitle: campaignData[0]["campaignTitle"],
+          campaignType: campaignData[0]["campaignType"],
+          campaignDescription: campaignData[0]["campaignDescription"],
+          campaignGoal: campaignData[0]["campaignGoal"],
+          campaignEndDateTime: campaignData[0]["campaignEndDateTime"],
+          campaignRaisedAmount: campaignRaisedAmount,
+          campaignEnded: campaignData[0]["campaignEnded"]
+        };
+        
+        //4. store the donor and updated campaign Id's record back to their store
+        await donors.donateToCampaign(donor, updatedCampaignIdRecord);
         navigate("/campaigns")
     } catch (err) {
       setError(err.message);
