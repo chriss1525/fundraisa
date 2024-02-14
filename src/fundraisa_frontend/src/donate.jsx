@@ -3,6 +3,12 @@ import { useParams } from 'react-router-dom';
 import { fundraisa_backend } from '../../declarations/fundraisa_backend';
 import { donors } from '../../declarations/donors';
 import { useNavigate } from "react-router-dom";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from './components/ui/card';
+import { Label } from './components/ui/label';
+import { Button } from './components/ui/button';
+import { Input } from './components/ui/input';
+import { Link } from 'react-router-dom';
+
 
 const DonatePage = () => {
     const navigate = useNavigate();
@@ -68,34 +74,59 @@ const DonatePage = () => {
   }
 
   return (
-    <div>
-      {campaign ? (
-        <>
-          <h1> Donate to {campaign.campaignTitle} </h1>
-          <form onSubmit={handleSubmit}>
-            <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter Your Name"
+    <>
+      <header className="px-4 lg:px-6 h-14 flex items-center">
+            <Link className="flex items-center justify-center" href="#">
+              <img alt="Logo" className="h-8" src="fundraisa_logo4.png" />
+              <span className="sr-only">Acme Inc</span>
+            </Link>
+            <nav className="ml-auto flex gap-4 sm:gap-6">
+              <Link to="/createCampaign" className="text-sm font-medium hover:underline underline-offset-4">
+                Create Campaign
+              </Link>
+              <Link to="/campaigns" className="text-sm font-medium hover:underline underline-offset-4" href="#">
+                Donate
+              </Link>
+            </nav>
+          </header>
+    <Card className="max-w-3xl mx-auto flex flex-col items-center gap-4 pt-12">
+      <CardHeader>
+        <CardTitle className="text-2xl">Donate Now</CardTitle>
+        <CardDescription>Enter your information below to make a donation.</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <form onSubmit={handleSubmit}>
+          <div className="space-y-2">
+            <Label htmlFor="donor-name">Your Name</Label>
+            <Input
+              id="donor-name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter your name"
+              required
             />
-            <input
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="amount">Donation Amount</Label>
+            <Input
+              id="amount"
               type="number"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              placeholder="Enter donation amount"
+              placeholder="Enter the amount"
+              required
             />
-            <button type="submit" disabled={isLoading}>
-              Donate
-            </button>
-          </form>
-          {error && <p>{error}</p>}
-        </>
-      ) : (
-        <div>Loading...</div> // Or some loading indicator
-      )}
-    </div>
-  );  
+          </div>
+          <Button className="w-full" type="submit" disabled={isLoading}>
+            Donate
+          </Button>
+          {error && <p className="text-red-500">{error}</p>}
+        </form>
+      </CardContent>
+    </Card>
+    </>
+  );
 };
 
 export default DonatePage;
