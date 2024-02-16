@@ -59,7 +59,7 @@ const DonatePage = () => {
           campaignRaisedAmount: campaignRaisedAmount,
           campaignEnded: campaignData[0]["campaignEnded"]
         };
-        
+
         //4. store the donor and updated campaign Id's record back to their store
         await donors.donateToCampaign(donor, updatedCampaignIdRecord);
         navigate("/campaigns")
