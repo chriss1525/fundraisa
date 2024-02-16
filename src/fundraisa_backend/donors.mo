@@ -1,6 +1,7 @@
 // DONOR CANISTER
 // import necessary liblaries
 import Hash "mo:base/Hash";
+import Iter "mo:base/Iter";
 import Result "mo:base/Result";
 import Text "mo:base/Text";
 import TrieMap "mo:base/TrieMap";
@@ -14,11 +15,12 @@ actor Donors {
 
     // DATA STRUCTURE
     // Define storage (TrieMaps) for donors
-    let donors : TrieMap.TrieMap<Text, Donor> = TrieMap.TrieMap<Text, Donor>(Text.equal, Text.hash);
+    stable var donorsEntries : [(Text, Donor)] = [];
+    var donors : TrieMap.TrieMap<Text, Donor> = TrieMap.TrieMap<Text, Donor>(Text.equal, Text.hash);
 
     // REFERENCE DFUNDRAISER CANISTER
     // Call Dfundraisa canister for campaign details by reference
-    let dfundraisaCanister = actor ("bd3sg-teaaa-aaaaa-qaaba-cai") : actor {
+    let dfundraisaCanister = actor ("bkyz2-fmaaa-aaaaa-qaaaq-cai") : actor {
         getCampaign(campaignId : Text) : async ?Campaign;
         updateCampaign(campaign : Campaign) : async Result.Result<(), Text>;
     };
@@ -50,5 +52,14 @@ actor Donors {
         };
     };
 
-};
+    system func preupgrade() {
+        donorsEntries := Iter.toArray(donors.entries());
+    };
 
+    system func postupgrade() {
+        for ((campaignId, donor) in donorsEntries.vals()) {
+            donors.put(campaignId, donor);
+        };
+        donorsEntries := [];
+    };
+};
