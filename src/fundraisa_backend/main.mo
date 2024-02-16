@@ -23,8 +23,11 @@ actor Dfundraisa {
 
   // DATA STRUCTURE
   // Define storage (TrieMaps) for fundraising campaigns and users
-  let campaigns : TrieMap.TrieMap<Text, Campaign> = TrieMap.TrieMap<Text, Campaign>(Text.equal, Text.hash);
-  let users : TrieMap.TrieMap<Principal, User> = TrieMap.TrieMap<Principal, User>(Principal.equal, Principal.hash);
+  stable var campaignsEntries : [(Text, Campaign)] = [];
+  var campaigns : TrieMap.TrieMap<Text, Campaign> = TrieMap.TrieMap<Text, Campaign>(Text.equal, Text.hash);
+
+  stable var usersEntries : [(Principal, User)] = [];
+  var users : TrieMap.TrieMap<Principal, User> = TrieMap.TrieMap<Principal, User>(Principal.equal, Principal.hash);
 
   // CAMPAIGN VARIABLES
   // Define a counter variable to manage fundraising campaigns and initialise it to zero.
@@ -198,5 +201,22 @@ actor Dfundraisa {
     };
     //4. Return success
     return #ok();
+  };
+
+  system func preupgrade() {
+    campaignsEntries := Iter.toArray(campaigns.entries());
+    usersEntries := Iter.toArray(users.entries());
+  };
+
+  system func postupgrade() {
+    for ((campaignId, campaign) in campaignsEntries.vals()) {
+      campaigns.put(campaignId, campaign);
+    };
+    campaignsEntries := [];
+
+    for ((principal, user) in usersEntries.vals()) {
+      users.put(principal, user);
+    };
+    usersEntries := [];
   };
 };
