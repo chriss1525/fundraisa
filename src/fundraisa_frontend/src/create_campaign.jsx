@@ -48,7 +48,7 @@ const CreateCampaign = () => {
               </Link>
             </nav>
           </header>
-          <Card className="max-w-3xl mx-auto">
+          <Card className="max-w-3xl mx-auto flex flex-col items-center gap-4 pt-12">
             <CardHeader className="items-center">
               <CardTitle className="text-2xl">Create a new campaign</CardTitle>
               <CardDescription>Fill in the details below to create your new campaign.</CardDescription>
