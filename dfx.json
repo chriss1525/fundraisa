@@ -43,6 +43,9 @@
     }
   },
   "defaults": {
+    "replica": {
+      "subnet_type":"system"
+    },
     "build": {
       "args": "",
       "packtool": ""
