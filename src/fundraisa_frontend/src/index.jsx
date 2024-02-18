@@ -46,19 +46,6 @@ const fundraisaBackend = Actor.createActor(fundraisa_backend_idl, {
   canisterId: fundraisa_backend_canister_id,
 });
 
-
-
-// Single campaign page
-const Campaign = () => {
-  return (
-    <div>
-      <h1>Campaign Title</h1>
-      <p>Campaign Description</p>
-      <Button>Donate</Button>
-    </div>
-  );
-};
-
 // App component
 const App = () => {
   return (
@@ -67,7 +54,6 @@ const App = () => {
         <Route path="/" element={<Landing />} />
         <Route path="/campaigns" element={<CampaignList />} />
         <Route path="/createCampaign" element={<CreateCampaign />} />
-        <Route path="/campaign/:campaignId" element={<Campaign />} />
         <Route path="/donate/:campaignId" element={<Donate />} />
        <Route path="/profile" element={<Profile />} />
       </Routes>

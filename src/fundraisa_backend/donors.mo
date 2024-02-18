@@ -8,6 +8,7 @@ import TrieMap "mo:base/TrieMap";
 import CampaignTypes "dataTypes/campaign.types";
 import DonorTypes "dataTypes/donor.types";
 
+
 // CANISTER (SMART CONTRACT)
 actor Donors {
     type Donor = DonorTypes.Donor;
@@ -20,7 +21,8 @@ actor Donors {
 
     // REFERENCE DFUNDRAISER CANISTER
     // Call Dfundraisa canister for campaign details by reference
-    let dfundraisaCanister = actor ("bkyz2-fmaaa-aaaaa-qaaaq-cai") : actor {
+    // call the canister id from the .env file
+    let dfundraisaCanister = actor ("CANISTER_ID_PLACEHOLDER") : actor {
         getCampaign(campaignId : Text) : async ?Campaign;
         updateCampaign(campaign : Campaign) : async Result.Result<(), Text>;
     };
