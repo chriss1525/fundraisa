@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Button } from "./components/ui/button";
 import { fundraisa_backend } from "../../declarations/fundraisa_backend";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./components/ui/card";
 
 
 // list of campaigns
@@ -62,52 +63,52 @@ const CampaignList = () => {
           </div>
 
           <div className="container grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {campaigns.length >  0 ? (
-                campaigns.map((campaign, index) => (
-                  <div key={campaign.campaignId} 
-                    className="flex flex-col rounded-xl overflow-hidden border border-gray-100 bg-white shadow-sm 
-                    hover:shadow transition-transform hover:scale-105 focus-within:outline-none focus-within:ring-1 
-                    focus-within:ring-gray-950 dark:border-gray-800 dark:bg-gray-950 dark:shadow-sm dark:hover:shadow 
-                    dark:hover:scale-105 dark:focus-within:ring-gray-300">
-                    <div className="p-4 flex-1 flex flex-col">
-                      <div className="space-y-2">
-                        <h3 className="text-xl font-bold tracking-tight">{campaign.campaignTitle}</h3>
-                        <h4 className="text-sm text-gray-500 dark:text-gray-400">
-                          Target Amount:{"\t"} {campaign.campaignGoal}
-                        </h4>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                          Fundraising ends on:{'\u0020'} {new Date(campaign.campaignEndDateTime).toLocaleString()}
-                        </p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                          Current Funds Raised: {campaign.campaignRaisedAmount}
-                        </p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                          Campaign Remaining Time: {time.toLocaleTimeString()}
-                        </p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                          About these campaign: {campaign.campaignDescription}
-                        </p>
-                      </div>
-
-                      <Link to={`/donate/${campaign.campaignId}`}>
-                        <Button>
-                          Donate
-                        </Button>
-                      </Link>
-
+          {campaigns.length >   0 ? (
+            campaigns.map((campaign) => (
+              <Card className="w-full max-w-sm rounded-xl border" key={campaign.campaignId}>
+                <CardHeader className="p-6">
+                <p className="text-lg font-semibold">{campaign.campaignTitle}</p>
+                  <CardTitle className="text-2xl font-bold">{`$${campaign.campaignGoal}`}</CardTitle>
+                  <CardDescription>Target Amount</CardDescription>
+                </CardHeader>
+                <CardContent className="flex flex-col p-6 border-t">
+                  <div className="grid grid-cols-2 gap-2 text-sm">
+                    <div>
+                      <span>Fundraising ends on: </span>
+                      <span>{new Date(campaign.campaignEndDateTime).toLocaleString()}</span>
                     </div>
+                    <div>
+                      <span>Time Remaining: </span>
+                      <span>{time.toLocaleTimeString()}</span> {/* Assuming timeRemaining is a prop or state that holds the countdown */}
+                    </div>
+                    <div>
+                      <span>Current Funds Raised</span>
+                      <span>{`$${campaign.campaignRaisedAmount}`}</span>
+                    </div>
+                    <dv className="p-6 border-t">
+                    <h3 className="text-lg font-semibold mt-4">Campaign Description</h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{campaign.campaignDescription}</p>
+                    </dv>
                   </div>
-                ))
-              ) : (
-              <div className="flex flex-col items-center justify-center min-h-screen">
-                <p className="text-center text-gray-500 dark:text-gray-400">No campaigns available yet.</p>
-              </div>
-              )
-            }
-          </div>
+                </CardContent>
+                <CardFooter className="p-6 flex justify-between items-end">
+                  <Link to={`/donate/${campaign.campaignId}`}>
+                    <Button >
+                      Donate
+                    </Button>
+                  </Link>
+                </CardFooter>
+              </Card>
+            ))
+          ) : (
+            <div className="flex flex-col items-center justify-center min-h-screen">
+              <p className="text-center text-gray-500 dark:text-gray-400">No campaigns available yet.</p>
+            </div>
+          )}
         </div>
-      </>
-    );
+      </div>
+    </>
+  );
   };
 
 export default CampaignList;
