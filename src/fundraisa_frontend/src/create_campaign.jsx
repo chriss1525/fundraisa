@@ -75,7 +75,7 @@ const CreateCampaign = () => {
 
           <div className="space-y-2">
             <Label htmlFor="type">Campaign Type</Label>
-            <Input list="type" placeholder="Select Type [Political Fundraising is NOT allowed]"/>
+            <Input list="type" name="type" placeholder="Select Type [Political Fundraising is NOT allowed]"/>
               <datalist 
                 id="type"
                 value={type}
