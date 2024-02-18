@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 
 
 const DonatePage = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const { campaignId } = useParams(); // Get the campaignId from the URL params
   const [campaign, setCampaign] = useState(null);
   const [amount, setAmount] = useState('');
@@ -76,25 +76,27 @@ const DonatePage = () => {
   return (
     <>
       <header className="px-4 lg:px-6 h-14 flex items-center">
-            <Link className="flex items-center justify-center" href="#">
-              <img alt="Logo" className="h-8" src="fundraisa_logo4.png" />
-              <span className="sr-only">Acme Inc</span>
-            </Link>
-            <nav className="ml-auto flex gap-4 sm:gap-6">
-              <Link to="/createCampaign" className="text-sm font-medium hover:underline underline-offset-4">
-                Create Campaign
-              </Link>
-              <Link to="/campaigns" className="text-sm font-medium hover:underline underline-offset-4" href="#">
-                Donate
-              </Link>
-            </nav>
-          </header>
-    <Card className="max-w-3xl mx-auto flex flex-col items-center gap-4 pt-12">
-      <CardHeader>
-        <CardTitle className="text-2xl">Donate Now</CardTitle>
-        <CardDescription>Enter your information below to make a donation.</CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
+
+        <Link className="flex items-center justify-center" href="#">
+        <img alt="Logo" className="" src="9-logo5.png" width="255" height="255"/>
+          <span className="sr-only">Acme Inc</span>
+        </Link>
+        <nav className="ml-auto flex gap-4 sm:gap-6">
+          <Link to="/createCampaign" className="text-sm font-medium hover:underline underline-offset-4">
+            Create Campaign
+          </Link>
+          <Link to="/campaigns" className="text-sm font-medium hover:underline underline-offset-4" href="#">
+            Donate
+          </Link>
+        </nav>
+      </header>
+
+      <Card className="max-w-3xl mx-auto flex flex-col items-center gap-4 pt-12">
+        <CardHeader>
+          <CardTitle className="text-2xl">Donate Now</CardTitle>
+          <CardDescription>Enter your information below to make a donation.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
         <form onSubmit={handleSubmit}>
           <div className="space-y-2">
             <Label htmlFor="donor-name">Your Name</Label>
@@ -107,6 +109,7 @@ const DonatePage = () => {
               required
             />
           </div>
+
           <div className="space-y-2">
             <Label htmlFor="amount">Donation Amount</Label>
             <Input
@@ -124,7 +127,7 @@ const DonatePage = () => {
           {error && <p className="text-red-500">{error}</p>}
         </form>
       </CardContent>
-    </Card>
+      </Card>
     </>
   );
 };

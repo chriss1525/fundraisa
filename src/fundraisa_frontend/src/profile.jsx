@@ -18,7 +18,12 @@ const Profile = () => {
     const handleAddUser = async () => {
       try {
         // Assuming you have a method called addUser in your smart contract
-        const payload = { userName: username, userNationalIdNo: NationalID, userTelNo: TelNo, yearOfBirth, contributionDestination: Destination };
+        const payload = { 
+          userName: username, 
+          userNationalIdNo: NationalID, 
+          userTelNo: TelNo, yearOfBirth, 
+          contributionDestination: Destination 
+        };
         await fundraisa_backend.addUser(payload);
         // Redirect to the landing page after adding the user
         navigate("/createCampaign");
@@ -31,7 +36,7 @@ const Profile = () => {
       <>
       <header className="px-4 lg:px-6 h-14 flex items-center">
           <Link className="flex items-center justify-center" href="#">
-            <img alt="Logo" className="h-8" src="fundraisa_logo4.png" />
+          <img alt="Logo" className="" src="9-logo5.png" width="255" height="255"/>
             <span className="sr-only">Acme Inc</span>
           </Link>
           <nav className="ml-auto flex gap-4 sm:gap-6">
