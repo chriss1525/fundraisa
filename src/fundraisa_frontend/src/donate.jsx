@@ -78,7 +78,7 @@ const DonatePage = () => {
       <header className="px-4 lg:px-6 h-14 flex items-center">
 
         <Link className="flex items-center justify-center" href="#">
-        <img alt="Logo" className="" src="9-logo5.png" width="255" height="255"/>
+        <img alt="Logo" className="" src="fundraisa_logo4.png" width="100" height="100"/>
           <span className="sr-only">Acme Inc</span>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">

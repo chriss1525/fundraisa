@@ -22,7 +22,7 @@ actor Donors {
     // REFERENCE DFUNDRAISER CANISTER
     // Call Dfundraisa canister for campaign details by reference
     // call the canister id from the .env file
-    let dfundraisaCanister = actor ("CANISTER_ID_PLACEHOLDER") : actor {
+    let dfundraisaCanister = actor ("br5f7-7uaaa-aaaaa-qaaca-cai") : actor {
         getCampaign(campaignId : Text) : async ?Campaign;
         updateCampaign(campaign : Campaign) : async Result.Result<(), Text>;
     };
